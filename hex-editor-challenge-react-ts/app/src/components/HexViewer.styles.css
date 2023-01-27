@@ -1,27 +1,31 @@
 .hex-grid {
   display: grid;
   grid-template-columns: repeat(16, 1fr);
-  grid-gap: 4px 12px;
+  grid-gap: 2px;
   width: fit-content;
   background-color: lightgray;
-  padding: 4px;
+  padding: 8px;
   border-radius: 4px;
   font-size: 1.2rem;
 }
 
 .text-grid {
-  grid-gap: 4px 4px;
   margin-left: 16px;
 }
 
 .container {
   display: flex;
   font-family: monospace;
+  max-width: 1024px;
+  margin: auto
 }
 
 .grid-item {
   cursor: pointer;
   text-align: center;
+  border: 1px solid black;
+  border-radius: 4px;
+  padding: 4px;
 }
 
 .grid-item:hover {
@@ -29,6 +33,44 @@
 }
 
 .selected-item {
-  background-color: red;
+  background-color: black;
   border-radius: 4px;
+  color: white;
+}
+
+@media only screen and (max-width: 1024px ) {
+  .container{
+    width: 100%;
+  }
+
+  .hex-grid {
+    font-size: 1rem;
+    grid-gap: 0;
+    padding: 0;
+  }
+
+  .grid-item {
+    /* padding: 2px; */
+    border-radius: 0;
+  }
+
+  .text-grid {
+    margin-left: 4px;
+  }
+}
+
+@media only screen and (max-width: 800px ) {
+  .container{
+    width: 100%;
+  }
+
+  .hex-grid {
+    font-size: 1rem;
+    grid-gap: 0;
+  }
+
+  .grid-item {
+    padding: 0;
+    border-radius: 0;
+  }
 }

@@ -5,7 +5,7 @@ interface HexViewerProps {
 }
 
 export default function HexViewer({ data }: HexViewerProps) {
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(2);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const hexData = useMemo(() => {
     if (typeof data === "string") {
       return data.split("").map((l) => l.charCodeAt(0).toString(16));
