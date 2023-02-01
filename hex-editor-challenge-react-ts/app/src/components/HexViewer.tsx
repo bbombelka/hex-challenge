@@ -1,54 +1,62 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
+import { useGridData } from "../hooks/useGridData/useGridData";
 import "./HexViewer.styles.css";
-interface HexViewerProps {
-  data: string | Uint8Array;
-}
+import { HexViewerProps, SelectedValue } from "./HexViewer.types";
 
 export default function HexViewer({ data }: HexViewerProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const hexData = useMemo(() => {
-    if (typeof data === "string") {
-      return data.split("").map((l) => l.charCodeAt(0).toString(16));
-    }
+  const [selectedValue, setSelectedValue] = useState<SelectedValue | null>(
+    null
+  );
 
-    return Array.from(data).map((n) => n.toString(16));
-  }, [data]);
+  const { hexData, textData } = useGridData(data);
 
-  const textData = useMemo(() => {
-    if (typeof data === "string") {
-      return data.split("");
-    }
-    return Array.from(data).map((n) => String.fromCharCode(n));
-  }, [data]);
+  const onGridItemClick =
+    (index: number, type: SelectedValue["type"]) =>
+    (e: React.MouseEvent<HTMLElement>) => {
+      setSelectedIndex(index);
+      setSelectedValue({ type, value: e.currentTarget.innerText });
+    };
 
   return (
     <div className="container">
-      <div className="hex-grid">
+      <div className="grid">
         {hexData.map((hex, i) => (
           <div
             key={i}
             className={`grid-item ${
               selectedIndex === i ? "selected-item" : ""
             }`}
-            onClick={() => setSelectedIndex(i)}
+            onClick={onGridItemClick(i, "hex")}
           >
             {hex}
           </div>
         ))}
       </div>
-      <div className="hex-grid text-grid">
+      <div className="grid text-grid">
         {textData.map((hex, i) => (
           <div
             key={i}
             className={`grid-item ${
               selectedIndex === i ? "selected-item" : ""
             }`}
-            onClick={() => setSelectedIndex(i)}
+            onClick={onGridItemClick(i, "text")}
           >
             {hex}
           </div>
         ))}
       </div>
+      {selectedValue && (
+        <div className="copy-bar">
+          Copy selected {selectedValue.type} to clipboard
+          <button
+            className="copy-button"
+            onClick={() => navigator.clipboard.writeText(selectedValue.value)}
+          >
+            Copy
+          </button>
+        </div>
+      )}
     </div>
   );
 }

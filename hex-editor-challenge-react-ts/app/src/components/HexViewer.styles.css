@@ -1,4 +1,4 @@
-.hex-grid {
+.grid {
   display: grid;
   grid-template-columns: repeat(16, 1fr);
   grid-gap: 2px;
@@ -38,6 +38,20 @@
   color: white;
 }
 
+.copy-bar {
+  position: fixed;
+  width: 100%;
+  bottom:0;
+  left: 0;
+  text-align: center;
+  height: 32px;
+}
+
+.copy-button {
+  margin-left: 16px;
+  padding: 4px;
+}
+
 @media only screen and (max-width: 1024px ) {
   .container{
     width: 100%;
@@ -50,7 +64,6 @@
   }
 
   .grid-item {
-    /* padding: 2px; */
     border-radius: 0;
   }
 
