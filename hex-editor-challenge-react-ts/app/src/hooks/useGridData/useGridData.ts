@@ -1,5 +1,7 @@
 import { useMemo } from "react";
 
+const SPECIAL_CHARACTER = ".";
+
 export const useGridData = (data: string | Uint8Array) => {
   const hexData = useMemo(() => {
     if (typeof data === "string") {
@@ -13,8 +15,20 @@ export const useGridData = (data: string | Uint8Array) => {
     if (typeof data === "string") {
       return data.split("");
     }
-    return Array.from(data).map((n) => String.fromCharCode(n));
+
+    const unreadableCodes = getUnreadableCodes();
+
+    return Array.from(data).map((n) =>
+      unreadableCodes.includes(n) ? SPECIAL_CHARACTER : String.fromCharCode(n)
+    );
   }, [data]);
 
   return { hexData, textData };
 };
+
+function getUnreadableCodes() {
+  return [
+    ...Array.from({ length: 32 }, (x, i) => i),
+    ...Array.from({ length: 33 }, (x, i) => i + 127),
+  ];
+}
